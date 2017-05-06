@@ -11,7 +11,7 @@ class Action(object):
         self.args = args    
         self.help_args = {}
         self.call_function = call_function
-        self.min_file_list = min_file_list # Mínima cantidad de ficheros a entregar
+        self.min_file_list = min_file_list # Mínima cantidad de ficheros a entregar.
         self.max_file_list = max_file_list # Máxima cantidad de ficheros. -1 significa sin límnite.
         self.min_argcount = min_argcount # Mínima cantidad de argumentos a pedir, -1 significa pedirlos todos.
         self.parent = None
