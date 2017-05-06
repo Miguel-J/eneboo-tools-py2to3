@@ -234,7 +234,7 @@ class ArgParser(object):
     def declare_action(self, *args, **kwargs):
         action = Action(*args, **kwargs)
         self.insert_action(action)
-	return action
+        return action
         
     def insert_action(self,action):
         name = action.name
