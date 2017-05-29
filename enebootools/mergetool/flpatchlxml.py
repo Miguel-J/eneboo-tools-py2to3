@@ -5,6 +5,7 @@ from io import StringIO
 from copy import deepcopy
 import os.path, time
 import difflib, re
+from pprint import pprint
 
 def filepath(): return os.path.abspath(os.path.dirname(__file__))
 def filedir(x): return os.path.abspath(os.path.join(filepath(),x))
@@ -39,10 +40,11 @@ class XMLFormatParser(object):
         filetext = file1.read()
         file_alike = StringIO(filetext)
         try:
-            unicode_text = str(filetext,self.encoding)
+            unicode_text = filetext
+
         except Exception:
             new_encoding = "iso-8859-15" if self.encoding.lower().find("utf") != -1 else "utf-8"
-            unicode_text = str(filetext,new_encoding)
+            unicode_text = filetext
             self.encoding = new_encoding
             
         try:
@@ -471,11 +473,11 @@ class XMLDiffer(object):
         if self.xfinal.root is not None: 
             doc = self.apply_pre_save_final(self.xfinal.root)
             doctype = str(self.xfinal.tree.docinfo.doctype).encode(self.xfinal.encoding)
-            if doctype: doctype += "\n"
+            if doctype: doctype = str(doctype) + "\n"
             if isinstance(doc, etree._Element):
-                return doctype + _xf(doc,xml_declaration=False,cstring=True, encoding=self.xfinal.encoding)
+                return str(doctype) + str(_xf(doc,xml_declaration=False,cstring=True, encoding=self.xfinal.encoding))
             else:
-                return doctype + str(doc)
+                return str(doctype) + str(doc)
         else: 
             return ""
         
@@ -1004,7 +1006,7 @@ def patch_lxml(iface, patch, base):
     xmldiff.apply_patch()
 
     t2 = time.time()
-    
+
     iface.output.write(xmldiff.final_output())
 
     tend = time.time()
